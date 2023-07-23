@@ -1,4 +1,4 @@
-package com.msa.todo
+package com.msa.todo.ui.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,37 +10,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.msa.todo.navigation.SetupNavgtion
 import com.msa.todo.ui.theme.ToDoAppJetPackComposeTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private lateinit var navHController: NavHostController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ToDoAppJetPackComposeTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
+                navHController = rememberNavController()
+                SetupNavgtion(navHController = navHController)
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ToDoAppJetPackComposeTheme {
-        Greeting("Android")
-    }
-}
+
