@@ -19,7 +19,7 @@ object DataBaseModule {
 
     @Singleton
     @Provides
-    fun provideDataBase(
+    fun provideDatabase(
         @ApplicationContext context: Context
     ) = Room.databaseBuilder(
         context,
@@ -29,6 +29,6 @@ object DataBaseModule {
 
     @Singleton
     @Provides
-   fun provideDao(database:AppDataBase)=database.toDoTaskDao()
+    fun provideDao(database: AppDataBase) = database.toDoTaskDao()
 
 }

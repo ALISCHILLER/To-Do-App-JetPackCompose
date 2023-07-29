@@ -6,5 +6,4 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 
 
 @HiltAndroidApp
-class ToDoApplication :Application(){
-}
+class ToDoApplication :Application()

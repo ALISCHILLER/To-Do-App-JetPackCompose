@@ -10,7 +10,7 @@ import com.msa.todo.ui.viewModel.ToDoViewModel
 import com.msa.todo.util.Constants.LIST_SCREEN
 
 @Composable
-fun SetupNavgtion(
+fun SetupNavigation(
     navHController: NavHostController,
     toDoViewModel: ToDoViewModel
 ){

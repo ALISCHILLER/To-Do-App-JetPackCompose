@@ -1,6 +1,12 @@
 package com.msa.todo.ui.theme
 
+import android.provider.CalendarContract
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.DarkGray
+import androidx.compose.ui.graphics.Color.Companion.LightGray
 
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
@@ -15,3 +21,27 @@ val LowPriorityColor= Color(0xFF00C980)
 val MediumPriorityColor= Color(0xFFFFC114)
 val HighPriorityColor= Color(0xFFFF4646)
 val NonePriorityColor= Color(0xFFFFFFFF)
+
+
+val Teal200 = Color(0xFF03DAC5)
+val Purple700 = Color(0xFF3700B3)
+val Purple500 = Color(0xFF6200EE)
+val taskItemTextColor: Color
+    @Composable
+    get() = if (!isSystemInDarkTheme()) DarkGray else LightGray
+
+val taskItemBackgroundColor: Color
+    @Composable
+    get() = if (!isSystemInDarkTheme()) Color.White else DarkGray
+
+val fabBackgroundColor: Color
+    @Composable
+    get() = if (!isSystemInDarkTheme()) Teal200 else Purple700
+
+val CalendarContract.Colors.topAppBarContentColor: Color
+    @Composable
+    get() = if (!isSystemInDarkTheme()) Color.White else LightGray
+
+val CalendarContract.Colors.topAppBarBackgroundColor: Color
+    @Composable
+    get() = if (!isSystemInDarkTheme()) Purple500 else Color.Black

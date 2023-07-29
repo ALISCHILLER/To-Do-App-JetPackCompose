@@ -42,6 +42,7 @@ import com.msa.todo.data.models.Priority
 import com.msa.todo.ui.theme.MediumPriorityColor
 import com.msa.todo.ui.viewModel.ToDoViewModel
 import com.msa.todo.util.SearchAppBarState
+import com.msa.todo.util.TrailingIconeState
 
 @Composable
 fun ListAppBar(
@@ -69,6 +70,7 @@ fun ListAppBar(
                 onCloseClicked = {
                     toDoViewModel.searchAppBarState.value=
                         SearchAppBarState.CLOSED
+                    toDoViewModel.searchTextState.value=" "
                 },
                 onSearchClicked ={}
             )
@@ -120,7 +122,8 @@ fun ListAppBarActions(
 fun SearchAction(
     onSearchClicked:()->Unit
 ){
-    IconButton(onClick = { onSearchClicked }
+    IconButton(
+        onClick = { onSearchClicked()}
     ) {
         Icon(imageVector = Icons.Filled.Search ,
             contentDescription = "Search Tasks",
@@ -215,11 +218,15 @@ fun SearchAppBar(
     onSearchClicked: (String) -> Unit
 ){
 
+    var trailingIconsStatr by remember {
+        mutableStateOf(TrailingIconeState.REDAY_TO_DELETE)
+    }
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp),
-        color = Color.Blue
+        color = Color.Blue,
+
     ) {
         TextField(
             modifier = Modifier
@@ -233,37 +240,51 @@ fun SearchAppBar(
                     modifier = Modifier
                         .alpha(1.0f),
                     text = "Search",
-                    color = Color.White
+                    color = Color.Black
                 )
             },
             textStyle = TextStyle(
-                color = MaterialTheme.colorScheme.onSurface,
+                color = Color.Black,
                 fontSize = MaterialTheme.typography.bodySmall.fontSize
             ),
             singleLine = true,
             leadingIcon = {
                 IconButton(
                     modifier = Modifier
-                        .alpha(0.0f)
+                        .alpha(1.0f)
                     ,
-                    onClick = { /*TODO*/ }
+                    onClick = {}
                 ) {
                     Icon(imageVector =Icons.Filled.Search ,
                         contentDescription ="Search Icone",
-                        tint = MaterialTheme.colorScheme.onSurface
+                        tint = Color.Blue
                         )
                 }
             },
             trailingIcon = {
                 IconButton(
                     onClick = {
-                        onCloseClicked()
+                        when(trailingIconsStatr){
+                            TrailingIconeState.REDAY_TO_DELETE -> {
+                                onTextChange("")
+                                trailingIconsStatr =TrailingIconeState.READY_TO_CLOSE
+                            }
+                            TrailingIconeState.READY_TO_CLOSE ->{
+                                if (text.isNotEmpty()){
+                                    onTextChange("")
+                                }else{
+                                    onCloseClicked()
+                                    trailingIconsStatr= TrailingIconeState.REDAY_TO_DELETE
+                                }
+                            }
+
+                        }
                     }
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Close,
                         contentDescription = "Close Icon",
-                        tint = MaterialTheme.colorScheme.onSurface
+                        tint = Color.Blue
                     )
                 }
             },
@@ -276,7 +297,7 @@ fun SearchAppBar(
                 }
             ),
             colors = TextFieldDefaults.textFieldColors(
-                cursorColor = MaterialTheme.colorScheme.onSurface,
+                cursorColor = Color.Blue,
                 focusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -289,10 +310,12 @@ fun SearchAppBar(
 @Composable
 @Preview
 fun defultListAppBarPreview() {
+
     DefaultListAppBar(
         onSearchClicked = {},
         onSortClicked = {},
         onDeleteClicked = {}
     )
+
 }
 
