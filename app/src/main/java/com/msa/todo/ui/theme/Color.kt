@@ -26,6 +26,8 @@ val NonePriorityColor= Color(0xFFFFFFFF)
 val Teal200 = Color(0xFF03DAC5)
 val Purple700 = Color(0xFF3700B3)
 val Purple500 = Color(0xFF6200EE)
+val MediumGray = Color(0xFF9C9C9C)
+
 val taskItemTextColor: Color
     @Composable
     get() = if (!isSystemInDarkTheme()) DarkGray else LightGray
@@ -38,10 +40,12 @@ val fabBackgroundColor: Color
     @Composable
     get() = if (!isSystemInDarkTheme()) Teal200 else Purple700
 
-val CalendarContract.Colors.topAppBarContentColor: Color
+val topAppBarContentColor: Color
     @Composable
     get() = if (!isSystemInDarkTheme()) Color.White else LightGray
 
-val CalendarContract.Colors.topAppBarBackgroundColor: Color
+val topAppBarBackgroundColor: Color
     @Composable
     get() = if (!isSystemInDarkTheme()) Purple500 else Color.Black
+
+

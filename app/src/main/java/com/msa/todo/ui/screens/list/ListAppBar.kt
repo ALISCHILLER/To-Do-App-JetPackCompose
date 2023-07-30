@@ -54,8 +54,9 @@ fun ListAppBar(
         SearchAppBarState.CLOSED ->{
             DefaultListAppBar(
                 onSearchClicked = {
-                    toDoViewModel.searchAppBarState.value=
-                        SearchAppBarState.OPENED
+                    toDoViewModel.updateAppBarState(
+                        newState = SearchAppBarState.OPENED
+                    )
                 },
                 onSortClicked = {},
                 onDeleteClicked = {}
@@ -65,14 +66,17 @@ fun ListAppBar(
             SearchAppBar(
                 text = searchTextState,
                 onTextChange = { text->
-                    toDoViewModel.searchTextState.value=text
+                    toDoViewModel.updateSearchText(newText = text)
                                },
                 onCloseClicked = {
-                    toDoViewModel.searchAppBarState.value=
-                        SearchAppBarState.CLOSED
-                    toDoViewModel.searchTextState.value=" "
+                    toDoViewModel.updateAppBarState(
+                        newState = SearchAppBarState.CLOSED
+                    )
+                    toDoViewModel.updateSearchText(newText = "")
                 },
-                onSearchClicked ={}
+                onSearchClicked ={
+                    toDoViewModel.searchDatabase(searchQuery = it)
+                }
             )
         }
     }

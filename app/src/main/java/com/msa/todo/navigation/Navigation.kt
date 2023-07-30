@@ -24,12 +24,12 @@ fun SetupNavigation(
         startDestination = LIST_SCREEN
     ){
         listComposable(
-            navigateToTaskScreen = screen.task,
+            navigateToTaskScreen = screen.list,
             toDoViewModel
         )
 
         taskComposable (
-            navigateToListScreen =  screen.list,
+            navigateToListScreen = screen.task,
             toDoViewModel =  toDoViewModel
         )
 

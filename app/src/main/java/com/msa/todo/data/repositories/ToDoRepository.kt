@@ -42,7 +42,15 @@ class ToDoRepository @Inject constructor(private val toDoTaskDao: ToDoTaskDao) {
 
 
 
+    suspend fun addTask(toDoTask: ToDoTaskEntity) {
+        toDoTaskDao.insertTask(toDoTaskEntity = toDoTask)
+    }
 
+    suspend fun deleteAllTasks() {
+        toDoTaskDao.deleteAllTasks()
+    }
 
-
+    fun searchDatabase(searchQuery: String): Flow<List<ToDoTaskEntity>> {
+        return toDoTaskDao.searchDatabase(searchQuery = searchQuery)
+    }
 }

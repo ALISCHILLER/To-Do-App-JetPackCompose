@@ -7,15 +7,12 @@ import com.msa.todo.util.Constants.LIST_SCREEN
 
 class Screens(navHController:NavHostController){
 
-    val list:(Action)-> Unit ={action ->
-        navHController.navigate("list/${action.name}"){
-            popUpTo(LIST_SCREEN){
-                inclusive=true
-            }
-        }
+    val list: (Int) -> Unit = { taskId ->
+        navHController.navigate(route = "task/$taskId")
     }
-
-    val task:(Int) -> Unit ={taskId->
-        navHController.navigate("task/$taskId")
+    val task: (Action) -> Unit = { action ->
+        navHController.navigate(route = "list/${action}") {
+            popUpTo(LIST_SCREEN) { inclusive = true }
+        }
     }
 }

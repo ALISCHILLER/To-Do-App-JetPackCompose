@@ -47,4 +47,8 @@ interface ToDoTaskDao {
             "LIKE 'M%' THEN 2 WHEN priority LIKE 'L%' THEN 3 END")
     fun sortByHighPriority():Flow<List<ToDoTaskEntity>>
 
+
+    @Query("SELECT * FROM todo_table WHERE title LIKE :searchQuery OR descrption LIKE :searchQuery")
+    fun searchDatabase(searchQuery: String): Flow<List<ToDoTaskEntity>>
+
 }
