@@ -10,6 +10,7 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
@@ -40,10 +41,8 @@ fun ListScreen(
         toDoViewModel.handleDatabaseActions(action = action)
     }
 
-    val allTask=toDoViewModel.allTasks.collectAsState()
     val searchAppBarState: SearchAppBarState = toDoViewModel.searchAppBarState
     val searchTextState: String = toDoViewModel.searchTextState
-
     val allTasks by toDoViewModel.allTasks.collectAsState()
     val searchedTasks by toDoViewModel.searchedTasks.collectAsState()
     val sortState by toDoViewModel.sortState.collectAsState()
@@ -55,9 +54,9 @@ fun ListScreen(
 
 
 
-    val scaffoldHostState = remember { SnackbarHostState() }
+    val snackbarHostState = remember { SnackbarHostState() }
     DisplaySnackBar(
-        scaffoldState = scaffoldHostState,
+        scaffoldState = snackbarHostState,
         onComplete = { toDoViewModel.updateAction(newAction = it) },
         onUndoClicked = { toDoViewModel.updateAction(newAction = it) },
         taskTitle = toDoViewModel.title,
@@ -65,6 +64,7 @@ fun ListScreen(
     )
 
     Scaffold(
+        snackbarHost  ={ SnackbarHost(snackbarHostState) },
         topBar = {
             ListAppBar(
                 toDoViewModel = toDoViewModel,
@@ -83,7 +83,7 @@ fun ListScreen(
                 onSwipeToDelete = { action, task ->
                     toDoViewModel.updateAction(newAction = action)
                     toDoViewModel.updateTaskFields(selectedTask = task)
-                    scaffoldHostState.currentSnackbarData?.dismiss()
+                    snackbarHostState.currentSnackbarData?.dismiss()
                 },
                 navigateToTaskScreen = navigateToTaskScreen
 
