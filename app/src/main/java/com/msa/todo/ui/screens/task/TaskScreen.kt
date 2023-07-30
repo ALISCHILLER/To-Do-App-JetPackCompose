@@ -4,9 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.msa.todo.data.models.Priority
@@ -32,8 +35,39 @@ fun TaskScreen(
     BackHandler {
         navigateToListScreen(Action.NO_ACTION)
     }
-
-    Scaffold(
+//    Column {
+//        TaskTopBar(
+//            selectedTask = selectedTask,
+//            navigateToListScreen = { action ->
+//                if (action == Action.NO_ACTION) {
+//                    navigateToListScreen(action)
+//                } else {
+//                    if (toDoViewModel.validateFields()) {
+//                        navigateToListScreen(action)
+//                    } else {
+//                        displayToast(context = context)
+//                    }
+//                }
+//            }
+//        )
+//
+//        TaskContent(
+//            title = title,
+//            onTitleChange = {
+//                toDoViewModel.updateTitle(it)
+//            },
+//            description = description,
+//            onDescriptionChange = {
+//                toDoViewModel.updateDescription(newDescription = it)
+//            },
+//            priority = priority,
+//            onPrioritySelected = {
+//                toDoViewModel.updatePriority(newPriority = it)
+//            }
+//        )
+//
+//    }
+   Scaffold(
         topBar = {
             TaskTopBar(
                 selectedTask = selectedTask,
@@ -53,22 +87,24 @@ fun TaskScreen(
             )
         },
         content = {
-            TaskContent(
-                title = title,
-                onTitleChange = {
-                    toDoViewModel.updateTitle(it)
-                },
-                description = description,
-                onDescriptionChange = {
-                    toDoViewModel.updateDescription(newDescription = it)
-                },
-                priority = priority,
-                onPrioritySelected = {
-                    toDoViewModel.updatePriority(newPriority = it)
-                }
-
-
-            )
+            Column(
+                modifier = Modifier.padding(it)
+            ) {
+                TaskContent(
+                    title = title,
+                    onTitleChange = {
+                        toDoViewModel.updateTitle(it)
+                    },
+                    description = description,
+                    onDescriptionChange = {
+                        toDoViewModel.updateDescription(newDescription = it)
+                    },
+                    priority = priority,
+                    onPrioritySelected = {
+                        toDoViewModel.updatePriority(newPriority = it)
+                    }
+                )
+            }
         },
 
         )

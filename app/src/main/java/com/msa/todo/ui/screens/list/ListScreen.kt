@@ -3,6 +3,8 @@ package com.msa.todo.ui.screens.list
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.util.Log
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -10,6 +12,7 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
@@ -18,6 +21,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,10 +44,8 @@ fun ListScreen(
         toDoViewModel.handleDatabaseActions(action = action)
     }
 
-    val allTask=toDoViewModel.allTasks.collectAsState()
     val searchAppBarState: SearchAppBarState = toDoViewModel.searchAppBarState
     val searchTextState: String = toDoViewModel.searchTextState
-
     val allTasks by toDoViewModel.allTasks.collectAsState()
     val searchedTasks by toDoViewModel.searchedTasks.collectAsState()
     val sortState by toDoViewModel.sortState.collectAsState()
@@ -55,9 +57,9 @@ fun ListScreen(
 
 
 
-    val scaffoldHostState = remember { SnackbarHostState() }
+    val snackbarHostState = remember { SnackbarHostState() }
     DisplaySnackBar(
-        scaffoldState = scaffoldHostState,
+        scaffoldState = snackbarHostState,
         onComplete = { toDoViewModel.updateAction(newAction = it) },
         onUndoClicked = { toDoViewModel.updateAction(newAction = it) },
         taskTitle = toDoViewModel.title,
@@ -65,6 +67,7 @@ fun ListScreen(
     )
 
     Scaffold(
+        snackbarHost  ={ SnackbarHost(snackbarHostState) },
         topBar = {
             ListAppBar(
                 toDoViewModel = toDoViewModel,
@@ -73,21 +76,25 @@ fun ListScreen(
             )
         },
         content={
-            ListContent(
-                allTasks = allTasks,
-                searchedTasks = searchedTasks,
-                lowPriorityTasks = lowPriorityTasks,
-                highPriorityTasks = highPriorityTasks,
-                sortState = sortState,
-                searchAppBarState = searchAppBarState,
-                onSwipeToDelete = { action, task ->
-                    toDoViewModel.updateAction(newAction = action)
-                    toDoViewModel.updateTaskFields(selectedTask = task)
-                    scaffoldHostState.currentSnackbarData?.dismiss()
-                },
-                navigateToTaskScreen = navigateToTaskScreen
+            Column(
+                modifier = Modifier.padding(it)
+            ) {
+                ListContent(
+                    allTasks = allTasks,
+                    searchedTasks = searchedTasks,
+                    lowPriorityTasks = lowPriorityTasks,
+                    highPriorityTasks = highPriorityTasks,
+                    sortState = sortState,
+                    searchAppBarState = searchAppBarState,
+                    onSwipeToDelete = { action, task ->
+                        toDoViewModel.updateAction(newAction = action)
+                        toDoViewModel.updateTaskFields(selectedTask = task)
+                        snackbarHostState.currentSnackbarData?.dismiss()
+                    },
+                    navigateToTaskScreen = navigateToTaskScreen
 
-            )
+                )
+            }
         },
         floatingActionButton = {
             ListFab(navigateToTaskScreen = navigateToTaskScreen)
