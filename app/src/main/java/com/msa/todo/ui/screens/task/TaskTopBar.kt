@@ -28,9 +28,9 @@ import com.msa.todo.data.models.ToDoTaskEntity
 import com.msa.todo.ui.theme.topAppBarBackgroundColor
 import com.msa.todo.ui.theme.topAppBarContentColor
 import com.msa.todo.util.Action
-import java.io.StringReader
 
 
+@ExperimentalMaterial3Api
 @Composable
 fun TaskTopBar(
     selectedTask: ToDoTaskEntity?,
@@ -60,7 +60,7 @@ fun NewTaskAppBar(
         title = {
             Text(text = "Add Task", color = topAppBarContentColor)
         },
-        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = topAppBarBackgroundColor ),
+        colors = TopAppBarDefaults.largeTopAppBarColors(containerColor = topAppBarBackgroundColor ),
         actions = {
             AddAction(onAddClicked = navigateToListScreen)
         }
@@ -94,6 +94,7 @@ fun AddAction(
 }
 
 
+@ExperimentalMaterial3Api
 @Composable
 fun ExistingTaskAppBar(
     selectedTask: ToDoTaskEntity,
@@ -144,9 +145,6 @@ fun ExistingTaskAppBarActions(
 ){
     var openDialog by remember { mutableStateOf(false) }
 
-    DeleteAction(onDeleteClicked = { openDialog = true })
-    UpdateAction(onUpdateClicked = navigateToListScreen)
-
     DisplayAlertDialog(
         title = stringResource(
             id = R.string.delete_task,
@@ -160,6 +158,12 @@ fun ExistingTaskAppBarActions(
         closeDialog = { openDialog = false },
         onYesClicked = { navigateToListScreen(Action.DELETE) }
     )
+
+
+    DeleteAction(onDeleteClicked = { openDialog = true })
+    UpdateAction(onUpdateClicked = navigateToListScreen)
+
+
 }
 
 

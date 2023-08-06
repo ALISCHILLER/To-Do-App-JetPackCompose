@@ -35,38 +35,7 @@ fun TaskScreen(
     BackHandler {
         navigateToListScreen(Action.NO_ACTION)
     }
-//    Column {
-//        TaskTopBar(
-//            selectedTask = selectedTask,
-//            navigateToListScreen = { action ->
-//                if (action == Action.NO_ACTION) {
-//                    navigateToListScreen(action)
-//                } else {
-//                    if (toDoViewModel.validateFields()) {
-//                        navigateToListScreen(action)
-//                    } else {
-//                        displayToast(context = context)
-//                    }
-//                }
-//            }
-//        )
-//
-//        TaskContent(
-//            title = title,
-//            onTitleChange = {
-//                toDoViewModel.updateTitle(it)
-//            },
-//            description = description,
-//            onDescriptionChange = {
-//                toDoViewModel.updateDescription(newDescription = it)
-//            },
-//            priority = priority,
-//            onPrioritySelected = {
-//                toDoViewModel.updatePriority(newPriority = it)
-//            }
-//        )
-//
-//    }
+
    Scaffold(
         topBar = {
             TaskTopBar(
